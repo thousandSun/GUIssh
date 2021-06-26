@@ -244,7 +244,6 @@ class Main:
         self.client.set_local_path(self.local_curr_path)
         self.client.download()
         self.populate_local_listbox()
-        x=50
 
     def enable_upload(self, event):
         self.upload_button.configure(state=tk.NORMAL)
