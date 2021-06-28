@@ -230,20 +230,38 @@ class Main:
         login = Login(top)
 
     def upload_selected(self):
-        selected_item = self.local_listbox.get(self.local_listbox.curselection())
-        self.local_file_path = os.path.sep.join([self.local_curr_path, selected_item])
-        self.client.set_local_path(self.local_file_path)
-        self.client.set_remote_path(self.remote_curr_path)
-        self.client.upload()
-        self.populate_remote_listbox()
+        selected = self.local_listbox.curselection()
+        try:
+            index = selected[0]
+            color = self.local_listbox.itemcget(index, "foreground")
+            if color == 'blue':
+                self.client.set_recursive(True)
+            selected_item = self.local_listbox.get(self.local_listbox.curselection())
+            self.local_file_path = os.path.sep.join([self.local_curr_path, selected_item])
+            self.client.set_local_path(self.local_file_path)
+            self.client.set_remote_path(self.remote_curr_path)
+            self.client.upload()
+            self.populate_remote_listbox()
+            self.client.set_recursive(False)
+        except IndexError:
+            pass
 
     def download_selected(self):
-        selected_item = self.remote_listbox.get(self.remote_listbox.curselection())
-        self.remote_file_path = f'{self.remote_curr_path}/{selected_item}'
-        self.client.set_remote_path(self.remote_file_path)
-        self.client.set_local_path(self.local_curr_path)
-        self.client.download()
-        self.populate_local_listbox()
+        selected = self.remote_listbox.curselection()
+        try:
+            index = selected[0]
+            color = self.remote_listbox.itemcget(index, 'foreground')
+            if color == 'blue':
+                self.client.set_recursive(True)
+            selected_item = self.remote_listbox.get(self.remote_listbox.curselection())
+            self.remote_file_path = f'{self.remote_curr_path}/{selected_item}'
+            self.client.set_remote_path(self.remote_file_path)
+            self.client.set_local_path(self.local_curr_path)
+            self.client.download()
+            self.populate_local_listbox()
+            self.client.set_recursive(False)
+        except IndexError:
+            pass
 
     def enable_upload(self, event):
         self.upload_button.configure(state=tk.NORMAL)

@@ -45,8 +45,8 @@ class Client:
     def set_remote_path(self, remote_path: str):
         self.__remote_path = remote_path
 
-    def set_recursive(self):
-        self.__recursive = True
+    def set_recursive(self, recurse):
+        self.__recursive = recurse
 
     def upload(self):
         # self.__client.connect(self.__host, port=self.__port, username=self.__username, password=self.__password,
